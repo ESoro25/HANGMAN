@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "my_string.h"
+
+typedef struct my_string {
+
+	int capacity;
+	int size;
+	char* data;
+
+} My_String;
+
+MY_STRING my_string_init_default(void) {
+
+	My_String* string;
+	string = (My_String*)malloc(sizeof(My_String));
+
+	if(string != NULL){
+		string->capacity = 7;
+		string->size = 0;
+		string->data = (char*)malloc(sizeof(char) * string->capacity);
+
+		return string;
+	}
+	else return NULL;
+}
+
+void my_string_destroy(MY_STRING* phMy_string) {
+	
+	free(((My_String*)(*phMy_string))->data);
+	free(*phMy_string);
+
+	*phMy_string = NULL;
+}
+
+MY_STRING my_string_init_c_string(const char* c_string) {
+	
+	My_String* string;
+	string = (My_String*)malloc(sizeof(My_String));
+
+	int capacity = 0;
+	int size = 0;
+
+	for(int i = 0; c_string[i] != '\0'; i++)
+	{
+		capacity++;
+		size++;
+	}
+
+	capacity++;
+
+	string->capacity = capacity;
+	string->size = size;
+	string->data = (char*)malloc(sizeof(char) * string->capacity);
+
+
+	if(string != NULL) {
+		return string;
+		}
+	else return NULL;
+
+}
+
+int my_string_get_capacity(MY_STRING hMy_string) {
+
+	My_String *pMy_string = (My_String*)(hMy_string);
+	
+	return pMy_string->capacity;
+
+}
+
+int my_string_get_size(MY_STRING hMy_string) {
+
+	My_String *pMy_string = (My_String*)(hMy_string);
+	
+	return pMy_string->size;
+}
+
+int my_string_compare(MY_STRING hLeft_string, MY_STRING hRight_string) {
+
+	My_String *Left_String = (My_String*)(hLeft_string);
+	My_String *Right_String = (My_String*)(hRight_string);
+
+	printf("%s %s", Left_String->data, Right_String->data);
+
+	int value = strcmp(Left_String->data, Right_String->data);
+	
+	return value;
+}
