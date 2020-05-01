@@ -149,7 +149,7 @@ void destroyNodes(Node* rootNode)
 		free(rootNode);
 	}
 }
-
+/*
 GENERIC_VECTOR get_largest_vector(Node* node)
 {
 	if(node != NULL)
@@ -173,4 +173,4 @@ GENERIC_VECTOR get_largest_vector(Node* node)
 		if(largestLeft > largestRight) return node->leftChild->value;
 			else return node->rightChild->value;
 }
-
+*/
