@@ -32,36 +32,36 @@ Node* insertNode(Node* node, MY_STRING key, MY_STRING value)
 	}
 	else generic_vector_push_back(node->value, value);
 	
-/*	node->height = findMax(getHeight(node->leftChild), getHeight(node->rightChild)) + 1;
+	node->height = getHeight(node);
 
 	int balanceFactor = getBalanceFactor(node);
 
-	if(balanceFactor > 1 && (my_string_compare(key, node->leftChild->key) < 0)) return leftRotation(node);
+	if(balanceFactor > 1 && (my_string_compare(key, node->rightChild->key) < 0)) return leftRotation(node);
 
-	if(balanceFactor < -1 && (my_string_compare(key, node->rightChild->key) > 0))  return rightRotation(node);
+	if(balanceFactor < -1 && (my_string_compare(key, node->leftChild->key) > 0))  return rightRotation(node);
 
-	if(balanceFactor > 1 && (my_string_compare(key, node->leftChild->key) < 0))
+	if(balanceFactor > 1 && (my_string_compare(key, node->rightChild->key) < 0))
 	{
 		node->rightChild = rightRotation(node->rightChild);
 		return leftRotation(node);
 	}
 
-	if(balanceFactor < -1 && (my_string_compare(key, node->rightChild->key) > 0))
+	if(balanceFactor < -1 && (my_string_compare(key, node->leftChild->key) > 0))
 	{
 		node->leftChild = leftRotation(node->leftChild);
 		return rightRotation(node);
 	}
-*/	return node;
+	return node;
 }
 
 Node* leftRotation(Node* node)
 {
-	Node* yNode = node->leftChild;
-	Node* yNode_Leaf = yNode->rightChild;
+	Node* yNode = node->rightChild;
+	Node* yNode_Leaf = yNode->leftChild;
 
-	yNode->rightChild = node;
-	node->leftChild = yNode_Leaf;
-
+	yNode_Leaf->leftChild = node;
+	node->rightChild = yNode_Leaf;
+	
 	node->height = findMax(getHeight(node->leftChild), getHeight(node->rightChild)) + 1;
 	yNode->height = findMax(getHeight(yNode->leftChild), getHeight(yNode->rightChild)) + 1;
 	
@@ -84,9 +84,7 @@ Node* rightRotation(Node* node)
 
 int getHeight(Node* node)
 {
-	if(node == NULL) return 0;
-	
-	return node->height;
+	return node ? findMax(getHeight(node->leftChild), getHeight(node->rightChild)) + 1 : 0;
 }
 
 int getBalanceFactor(Node* node)
@@ -149,20 +147,22 @@ void destroyNodes(Node* rootNode)
 		free(rootNode);
 	}
 }
-/*
+
 GENERIC_VECTOR get_largest_vector(Node* node)
 {
+	int largestRoot, largestLeft, largestRight;
+
 	if(node != NULL)
 	{
-		int largestRoot = generic_vector_get_size(node->value);
+		largestRoot = generic_vector_get_size(node->value);
 
 		get_largest_vector(node->leftChild);
 
-		int largestLeft = generic_vector_get_size(node->value);
+		largestLeft = generic_vector_get_size(node->value);
 
 		get_largest_vector(node->rightChild);
 
-		int largestRight = generic_vector_get_size(node->value);
+		largestRight = generic_vector_get_size(node->value);
 	}
 
 	if(largestRoot > largestLeft)
@@ -173,4 +173,4 @@ GENERIC_VECTOR get_largest_vector(Node* node)
 		if(largestLeft > largestRight) return node->leftChild->value;
 			else return node->rightChild->value;
 }
-*/
+
